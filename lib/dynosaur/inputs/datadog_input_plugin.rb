@@ -29,13 +29,11 @@ module Dynosaur
 
       def retrieve
         begin
-          # New Relic is not very accurate and sometimes returns data for the
-          # current minute, as if it was already complete.
-          # This is not an issue here because we always use the max value from
-          # the ring buffer. This would become an issue if we had an
-          # hysteresis_period smaller than 1 minute.
           to_time = Time.now.iso8601
-          @datadog_api_client.get_metric(@metric_name, from: to_time - @hysteresis_period, to: to_time)
+          series = datadog_api_client.get_metric(
+            @metric_name, from: to_time - @hysteresis_period, to: to_time
+          )
+          series.map(&:last).max
         rescue StandardError => e
           Dynosaur::ErrorHandler.handle(e)
           puts "ERROR: failed to decipher Datadog result"

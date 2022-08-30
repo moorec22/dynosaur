@@ -16,11 +16,14 @@ module Dynosaur
     # to: epochi time in seconds, marking the end of the interval. Defaults to now.
     def get_metric(metric_name, from: (Time.now.utc - (60 * 10)).iso8601, to: Time.now.utc.iso8601)
       api_instance = DatadogAPIClient::V1::MetricsAPI.new
-      api_instance.query_metrics(
+      response = api_instance.query_metrics(
         from,
         to,
         "#{metric_name}{service:backend.heroku-router,env:prod}.rollup(count, 60)"
       )
+      return response.message unless response.status == "ok"
+
+      response.series.first.pointlist
     end
   end
 end

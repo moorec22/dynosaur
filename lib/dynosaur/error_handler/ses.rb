@@ -1,4 +1,4 @@
-require 'aws-sdk-v1'
+require 'aws-sdk'
 
 module Dynosaur::ErrorHandler
   class Ses < BaseHandler

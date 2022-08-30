@@ -29,7 +29,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'activesupport'
   spec.add_dependency "platform-api"
-  spec.add_dependency 'google-api-client', "~> 0.6.4"
+  spec.add_dependency 'google-api-client', "< 1.0"
   spec.add_dependency 'newrelic_api', "~> 1.2.4"
   spec.add_dependency 'activeresource'
   spec.add_dependency 'librato-metrics'
